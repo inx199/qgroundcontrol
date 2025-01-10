@@ -1200,11 +1200,11 @@ Rectangle {
 
                     Item { width: 1; height: _margins }
                     QGCLabel {
-                        text:               qsTr("%1 Version").arg(QGroundControl.appName)
+                        text:               qsTr("A-Pilot")
                         Layout.alignment:   Qt.AlignHCenter
                     }
                     QGCLabel {
-                        text:               QGroundControl.qgcVersion
+                        text:               qsTr("v1.0 32bit 2025")
                         Layout.alignment:   Qt.AlignHCenter
                     }
                 } // settingsColumn
