@@ -64,10 +64,6 @@ const QVariantList& PX4AutoPilotPlugin::vehicleComponents(void)
     if (_components.count() == 0 && !_incorrectParameterVersion) {
         if (_vehicle) {
             if (_vehicle->parameterManager()->parametersReady()) {
-                _airframeComponent = new AirframeComponent(_vehicle, this, this);
-                _airframeComponent->setupTriggerSignals();
-                _components.append(QVariant::fromValue(static_cast<VehicleComponent*>(_airframeComponent)));
-
                 if (!_vehicle->hilMode()) {
                     _sensorsComponent = new SensorsComponent(_vehicle, this, this);
                     _sensorsComponent->setupTriggerSignals();
@@ -82,51 +78,12 @@ const QVariantList& PX4AutoPilotPlugin::vehicleComponents(void)
                 _flightModesComponent->setupTriggerSignals();
                 _components.append(QVariant::fromValue(static_cast<VehicleComponent*>(_flightModesComponent)));
 
-                _powerComponent = new PowerComponent(_vehicle, this, this);
-                _powerComponent->setupTriggerSignals();
-                _components.append(QVariant::fromValue(static_cast<VehicleComponent*>(_powerComponent)));
-
-                if (_vehicle->actuators()) {
-                    _vehicle->actuators()->init(); // At this point params are loaded, so we can init the actuators
-                }
-                if (_vehicle->actuators() && _vehicle->actuators()->showUi()) {
-                    _actuatorComponent = new ActuatorComponent(_vehicle, this, this);
-                    _actuatorComponent->setupTriggerSignals();
-                    _components.append(QVariant::fromValue(static_cast<VehicleComponent*>(_actuatorComponent)));
-                } else {
-                    // show previous motor UI instead
-                    _motorComponent = new MotorComponent(_vehicle, this, this);
-                    _motorComponent->setupTriggerSignals();
-                    _components.append(QVariant::fromValue(static_cast<VehicleComponent*>(_motorComponent)));
-                }
 
                 _safetyComponent = new SafetyComponent(_vehicle, this, this);
                 _safetyComponent->setupTriggerSignals();
                 _components.append(QVariant::fromValue(static_cast<VehicleComponent*>(_safetyComponent)));
 
-                _tuningComponent = new PX4TuningComponent(_vehicle, this, this);
-                _tuningComponent->setupTriggerSignals();
-                _components.append(QVariant::fromValue(static_cast<VehicleComponent*>(_tuningComponent)));
-
-                if(_vehicle->parameterManager()->parameterExists(_vehicle->id(), "SYS_VEHICLE_RESP")) {
-                    _flightBehavior = new PX4FlightBehavior(_vehicle, this, this);
-                    _flightBehavior->setupTriggerSignals();
-                    _components.append(QVariant::fromValue(static_cast<VehicleComponent*>(_flightBehavior)));
-                }
-
-                //-- Is there support for cameras?
-                if(_vehicle->parameterManager()->parameterExists(_vehicle->id(), "TRIG_MODE")) {
-                    _cameraComponent = new CameraComponent(_vehicle, this, this);
-                    _cameraComponent->setupTriggerSignals();
-                    _components.append(QVariant::fromValue(static_cast<VehicleComponent*>(_cameraComponent)));
-                }
-
-                //-- Is there an ESP8266 Connected?
-                if(_vehicle->parameterManager()->parameterExists(MAV_COMP_ID_UDP_BRIDGE, "SW_VER")) {
-                    _esp8266Component = new ESP8266Component(_vehicle, this, this);
-                    _esp8266Component->setupTriggerSignals();
-                    _components.append(QVariant::fromValue(static_cast<VehicleComponent*>(_esp8266Component)));
-                }
+                
             } else {
                 qWarning() << "Call to vehicleCompenents prior to parametersReady";
             }

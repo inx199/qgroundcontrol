@@ -134,7 +134,7 @@ SetupPage {
                 }
 
                 QGCLabel {
-                    text:                   qsTr("Object Detection")
+                    text:                   qsTr("Switch Back To Copter After Drop Below Altitude")
                 }
 
                 Rectangle {
@@ -162,84 +162,21 @@ SetupPage {
                             anchors.verticalCenter: parent.verticalCenter
 
                             QGCLabel {
-                                text:               qsTr("Collision Prevention:")
-                                Layout.minimumWidth:_labelWidth
+                                text:               qsTr("Maximum negative altitude error for FW:")
                                 Layout.fillWidth:   true
                             }
-                            QGCComboBox {
-                                model:              [qsTr("Disabled"), qsTr("Enabled")]
-                                enabled:            _collisionPrevention
-                                Layout.minimumWidth:_editFieldWidth
+                            FactTextField {
+                                fact:               controller.getParameterFact(-1, "VT_FW_ALT_ERR")
                                 Layout.fillWidth:   true
-                                currentIndex:       _collisionPrevention ? (_collisionPrevention.rawValue > 0 ? 1 : 0) : 0
-                                onActivated: {
-                                    if(_collisionPrevention) {
-                                        _collisionPrevention.value = index > 0 ? 5 : -1
-                                        console.log('Collision prevention enabled: ' + _collisionPrevention.value)
-                                        showObstacleDistanceOverlayCheckBox.checked = _collisionPrevention.value > 0
-                                    }
-                                }
                             }
 
                             QGCLabel {
-                                text:               qsTr("Obstacle Avoidance:")
+                                text:               qsTr("Minimum altitude for FW flight:")
                                 Layout.fillWidth:   true
                             }
-                            QGCComboBox {
-                                model:              [qsTr("Disabled"), qsTr("Enabled")]
-                                enabled:            _objectAvoidance && _collisionPrevention.rawValue > 0
-                                Layout.minimumWidth:_editFieldWidth
+                            FactTextField {
+                                fact:               controller.getParameterFact(-1, "VT_FW_MIN_ALT")
                                 Layout.fillWidth:   true
-                                currentIndex:       _objectAvoidance ? (_objectAvoidance.value === 0 ? 0 : 1) : 0
-                                onActivated: {
-                                    if(_objectAvoidance) {
-                                        _objectAvoidance.value = index > 0 ? 1 : 0
-                                    }
-                                }
-                            }
-
-                            QGCLabel {
-                                text:               qsTr("Minimum Distance: (") + QGroundControl.unitsConversion.appSettingsHorizontalDistanceUnitsString + ")"
-                                Layout.fillWidth:   true
-                                Layout.alignment:   Qt.AlignVCenter
-                            }
-                            QGCSlider {
-                                width:              _editFieldWidth
-                                enabled:            _collisionPrevention && _collisionPrevention.rawValue > 0
-                                Layout.minimumWidth:_editFieldWidth
-                                Layout.minimumHeight:   ScreenTools.defaultFontPixelHeight * 2
-                                Layout.fillWidth:   true
-                                Layout.fillHeight:  true
-                                maximumValue:       QGroundControl.unitsConversion.metersToAppSettingsHorizontalDistanceUnits(15)
-                                minimumValue:       QGroundControl.unitsConversion.metersToAppSettingsHorizontalDistanceUnits(1)
-                                stepSize:           1
-                                displayValue:       true
-                                updateValueWhileDragging:   false
-                                Layout.alignment:   Qt.AlignVCenter
-                                value: {
-                                    if (_collisionPrevention && _collisionPrevention.rawValue > 0) {
-                                        return QGroundControl.unitsConversion.metersToAppSettingsHorizontalDistanceUnits(_collisionPrevention.rawValue)
-                                    } else {
-                                        return 1;
-                                    }
-                                }
-                                onValueChanged: {
-                                    if(_collisionPrevention) {
-                                        //-- Negative means disabled
-                                        if(_collisionPrevention.rawValue >= 0) {
-                                            _collisionPrevention.rawValue = QGroundControl.unitsConversion.appSettingsHorizontalDistanceUnitsToMeters(value)
-                                        }
-                                    }
-                                }
-                            }
-
-                            FactCheckBox {
-                                id:         showObstacleDistanceOverlayCheckBox
-                                text:       qsTr("Show obstacle distance overlay")
-                                visible:    _showObstacleDistanceOverlay.visible
-                                fact:       _showObstacleDistanceOverlay
-
-                                property Fact _showObstacleDistanceOverlay: QGroundControl.settingsManager.flyViewSettings.showObstacleDistanceOverlay
                             }
                         }
                     }
