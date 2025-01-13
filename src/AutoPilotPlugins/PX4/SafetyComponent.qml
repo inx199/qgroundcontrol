@@ -134,7 +134,7 @@ SetupPage {
                 }
 
                 QGCLabel {
-                    text:                   qsTr("Switch Back To Copter After Drop Below Altitude")
+                    text:                   qsTr("Quadchute Altitude")
                 }
 
                 Rectangle {
@@ -162,16 +162,18 @@ SetupPage {
                             anchors.verticalCenter: parent.verticalCenter
 
                             QGCLabel {
-                                text:               qsTr("Maximum Negative Altitude Error:")
+                                text:               qsTr("Maximum FW Altitude Error:")
+								Layout.minimumWidth:    _labelWidth
                                 Layout.fillWidth:   true
                             }
                             FactTextField {
                                 fact:               controller.getParameterFact(-1, "VT_FW_ALT_ERR")
+								Layout.minimumWidth:    _editFieldWidth
                                 Layout.fillWidth:   true
                             }
 
                             QGCLabel {
-                                text:               qsTr("Minimum Altitude For FW Flight:")
+                                text:               qsTr("Minimum FW Altitude:")
                                 Layout.fillWidth:   true
                             }
                             FactTextField {

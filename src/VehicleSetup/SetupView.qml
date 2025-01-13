@@ -291,10 +291,10 @@ Rectangle {
             SubMenuButton {
                 setupIndicator:     false
                 exclusiveGroup:     setupButtonGroup
-                visible:            false
-                text:               qsTr("Parameters")
+                visible:            true
+                text:               qsTr("Reboot")
                 Layout.fillWidth:   true
-                onClicked:          showPanel(this, "SetupParameterEditor.qml")
+                onClicked:          { controller.vehicle.rebootVehicle(); close() }
             }
 
         }
