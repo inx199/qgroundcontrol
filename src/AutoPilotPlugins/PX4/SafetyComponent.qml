@@ -162,7 +162,7 @@ SetupPage {
                             anchors.verticalCenter: parent.verticalCenter
 
                             QGCLabel {
-                                text:               qsTr("Maximum negative altitude error for FW:")
+                                text:               qsTr("Maximum Negative Altitude Error:")
                                 Layout.fillWidth:   true
                             }
                             FactTextField {
@@ -171,7 +171,7 @@ SetupPage {
                             }
 
                             QGCLabel {
-                                text:               qsTr("Minimum altitude for FW flight:")
+                                text:               qsTr("Minimum Altitude For FW Flight:")
                                 Layout.fillWidth:   true
                             }
                             FactTextField {
@@ -561,49 +561,7 @@ SetupPage {
                     }
                 }
 
-                QGCLabel {
-                    text:               qsTr("Hardware in the Loop Simulation")
-                    visible:            _hitlAvailable
-                }
-
-                Rectangle {
-                    width:              mainRow.width   + (_margins * 2)
-                    height:             hitlGrid.height + (_margins * 2)
-                    color:              qgcPal.windowShade
-                    visible:            _hitlAvailable
-                    Row {
-                        id:                 hitlGrid
-                        spacing:            _margins
-                        anchors.centerIn:   parent
-                        Item {
-                            width:                  _imageWidth
-                            height:                 _imageHeight
-                            anchors.verticalCenter: parent.verticalCenter
-                            QGCColoredImage {
-                                color:              qgcPal.text
-                                source:             "/qmlimages/HITL.svg"
-                                height:             _imageHeight
-                                width:              _imageHeight
-                                anchors.centerIn:   parent
-                            }
-                        }
-                        GridLayout {
-                            columns:                2
-                            anchors.verticalCenter: parent.verticalCenter
-                            QGCLabel {
-                                text:               qsTr("HITL Enabled:")
-                                Layout.minimumWidth:_labelWidth
-                                Layout.fillWidth:   true
-                            }
-                            FactComboBox {
-                                fact:               _hitlEnabled
-                                indexModel:         false
-                                Layout.minimumWidth:_editFieldWidth
-                                Layout.fillWidth:   true
-                            }
-                        }
-                    }
-                }
+                
             }
         }
     }
