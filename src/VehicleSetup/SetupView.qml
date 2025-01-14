@@ -291,10 +291,10 @@ Rectangle {
             SubMenuButton {
                 setupIndicator:     false
                 exclusiveGroup:     setupButtonGroup
-                visible:            true
+                visible:            false
                 text:               qsTr("Reboot")
                 Layout.fillWidth:   true
-                onClicked:          { controller.vehicle.rebootVehicle(); close() }
+                onClicked:          controller.vehicle.rebootVehicle()
             }
 
         }

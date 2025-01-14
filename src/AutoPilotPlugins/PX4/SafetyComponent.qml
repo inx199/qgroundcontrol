@@ -11,10 +11,12 @@
 import QtQuick                  2.3
 import QtQuick.Controls         1.2
 import QtQuick.Controls.Styles  1.4
+import QtQuick.Dialogs          1.2
 import QtQuick.Layouts          1.2
 import QtGraphicalEffects       1.0
 
 import QGroundControl               1.0
+import QGroundControl.Controllers   1.0
 import QGroundControl.FactSystem    1.0
 import QGroundControl.FactControls  1.0
 import QGroundControl.Controls      1.0
@@ -63,7 +65,32 @@ SetupPage {
                 spacing:    _margins
                 anchors.horizontalCenter:   parent.horizontalCenter
 
-                QGCLabel {
+				QGCButton {
+					anchors.top:    header.top
+					anchors.bottom: header.bottom
+					anchors.right:  parent.right
+					text:           qsTr("Tools")
+					onClicked:      toolsMenu.popup()
+				}
+
+				QGCMenu {
+					id:                 toolsMenu
+					QGCMenuItem {
+						text:           qsTr("Refresh")
+						onTriggered:	controller.refresh()
+					}
+					
+					QGCMenuSeparator { }
+					QGCMenuItem {
+						text:           qsTr("Reboot Vehicle")
+						onTriggered:    mainWindow.showMessageDialog(qsTr("Reboot Vehicle"),
+																	 qsTr("Select Ok to reboot vehicle."),
+																	 StandardButton.Cancel | StandardButton.Ok,
+																	 function() { controller.vehicle.rebootVehicle()})
+					}
+				}
+                
+				QGCLabel {
                     text:                   qsTr("Low Battery Failsafe Trigger")
                 }
 
